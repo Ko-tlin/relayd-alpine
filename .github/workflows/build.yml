@@ -39,6 +39,8 @@ jobs:
 
       - name: Update APKBUILD and Build
         run: |
+          cd package
+
           VERSION="${{ github.ref_name }}"
           
           sed -i "s/^pkgver=.*/pkgver=$VERSION/" APKBUILD
