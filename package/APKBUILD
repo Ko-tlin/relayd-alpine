@@ -9,7 +9,6 @@ makedepends="gcc libc-dev cmake make"
 source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
 
 build() {
-    cd "$srcdir/$pkgname-$pkgver"
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -19,6 +18,5 @@ build() {
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
     DESTDIR="$pkgdir" cmake --install build
 }
