@@ -28,13 +28,17 @@ jobs:
 
       - name: Setup abuild keys
         env:
-          APKBUILD_PRIVKEY: ${{ secrets.APKBUILD_PRIVKEY }}
+          APKBUILD_PUBKEY: ${{ secrets.APKBUILD_PUBKEY }}
+          APKBUILD_PRIKEY: ${{ secrets.APKBUILD_PRIKEY }}
         run: |
           mkdir -p /home/builder/.abuild
 
-          echo "$APKBUILD_PRIVKEY" > /home/builder/.abuild/product.rsa
+          echo "$APKBUILD_PUBKEY" > /home/builder/.abuild/product.rsa.pub
+          chmod 600 /home/builder/.abuild/product.rsa.pub
+          echo "$APKBUILD_PRIKEY" > /home/builder/.abuild/product.rsa
           chmod 600 /home/builder/.abuild/product.rsa
-          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/product.rsa\"" > /home/builder/.abuild/abuild.conf
+
+          echo "PACKAGER_PRIKEY=\"/home/builder/.abuild/product.rsa\"" > /home/builder/.abuild/abuild.conf
           chown -R builder:abuild /home/builder/
 
       - name: Update APKBUILD and Build
