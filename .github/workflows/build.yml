@@ -51,10 +51,11 @@ jobs:
 
           chown -R builder:abuild .
 
-          (cd src/relayd-alpine-1.0.0/src && git clone https://github.com/openwrt/libubox.git)
 
           su builder -c "abuild checksum"
-          su builder -c "abuild -r"
+          su builder -c "abuild unpack"
+          (cd src/relayd-alpine-1.0.0/src && git clone https://github.com/openwrt/libubox.git)
+          su builder -c "abuild build"
 
       - name: Upload APK Artifacts
         uses: actions/upload-artifact@v7
