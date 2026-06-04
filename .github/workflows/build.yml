@@ -49,7 +49,7 @@ jobs:
           su builder -c "abuild -r"
 
       - name: Upload APK Artifacts
-        uses: actions/artifacts@v4
+        uses: actions/upload-artifacts@v4
         with:
           name: alpine-packages
           path: /home/builder/packages/**/*.apk
