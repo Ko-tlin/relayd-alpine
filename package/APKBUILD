@@ -7,8 +7,10 @@ arch="all"
 license="MIT"
 makedepends="gcc libc-dev cmake make"
 source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+builddir="$srcdir/relayd-alpine-$pkgver/"
 
 build() {
+    cd "$builddir"
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -18,5 +20,6 @@ build() {
 }
 
 package() {
+    cd "$builddir"
     DESTDIR="$pkgdir" cmake --install build
 }
