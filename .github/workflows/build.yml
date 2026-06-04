@@ -44,12 +44,15 @@ jobs:
         run: |
           cd package
 
+
           VERSION="${{ github.ref_name }}"
           
           sed -i "s/^pkgver=.*/pkgver=$VERSION/" APKBUILD
-          
+
           chown -R builder:abuild .
-          
+
+          (cd src/relayd-alpine-1.0.0/src && git clone https://github.com/openwrt/libubox.git)
+
           su builder -c "abuild checksum"
           su builder -c "abuild -r"
 
