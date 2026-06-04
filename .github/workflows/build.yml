@@ -15,7 +15,7 @@ jobs:
       - name: Install build dependencies
         run: |
           apk update
-          apk add alpine-sdk sudo bash git cmake
+          apk add alpine-sdk sudo bash git cmake build-base ninja
 
           adduser -D -G abuild builder
           echo "builder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
