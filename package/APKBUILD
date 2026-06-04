@@ -10,7 +10,10 @@ source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
 builddir="$srcdir/relayd-alpine-$pkgver/"
 
 build() {
+    (cd "$builddir/src" && git clone https://github.com/openwrt/libubox.git)
+
     cd "$builddir"
+
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
