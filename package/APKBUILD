@@ -6,9 +6,11 @@ url="https://github.com/Ko-tlin/relayd-alpine"
 arch="all"
 license="MIT"
 makedepends="gcc libc-dev cmake make"
-source_="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+builddir="$srcdir"
 
 build() {
+    cd "$builddor"
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -18,5 +20,6 @@ build() {
 }
 
 package() {
+    cd "$builddor"
     DESTDIR="$pkgdir" cmake --install build
 }
