@@ -1,0 +1,55 @@
+name: Build Alpine Package
+
+on:
+  release:
+    types: [published]
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
+      options: --privileged
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          apk update
+          apk add alpine-sdk sudo bash git
+
+          adduser -D -G abuild builder
+          echo "builder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          chown: true
+
+      - name: Setup abuild keys
+        env:
+          APKBUILD_PRIVKEY: ${{ secrets.APKBUILD_PRIVKEY }}
+        run: |
+          mkdir -p /home/builder/.abuild
+
+          echo "$APKBUILD_PRIVKEY" > /home/builder/.abuild/your-key-name.rsa
+          chmod 600 /home/builder/.abuild/your-key-name.rsa
+          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/your-key-name.rsa\"" > /home/builder/.abuild.conf
+          chown -R builder:abuild /home/builder/
+
+      - name: Update APKBUILD and Build
+        run: |
+          VERSION="${{ github.ref_name }}"
+          
+          sed -i "s/^pkgver=.*/pkgver=$VERSION/" APKBUILD
+          
+          chown -R builder:abuild .
+          
+          su builder -c "abuild checksum"
+          su builder -c "abuild -r"
+
+      - name: Upload APK Artifacts
+        uses: actions/artifacts@v4
+        with:
+          name: alpine-packages
+          path: /home/builder/packages/**/*.apk

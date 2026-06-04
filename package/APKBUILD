@@ -1,0 +1,21 @@
+pkgname=relayd
+pkgver=${VERSION}
+pkgrel=0
+pkgdesc="IPv4 pseudo-bridge routing daemon"
+url="https://github.com/Ko-tlin/relayd-alpine"
+arch="all"
+license="MIT"
+makedepends="gcc libc-dev cmake make"
+source_="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+
+build() {
+    cmake -B build \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_BUILD_TYPE=None
+    cmake --build .
+}
+
+package() {
+}
