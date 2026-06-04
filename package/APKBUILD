@@ -7,10 +7,9 @@ arch="all"
 license="MIT"
 makedepends="gcc libc-dev cmake make"
 source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
-builddir="$srcdir"
 
 build() {
-    cd "$builddor"
+    cd "$srcdir/$pkgname-$pkgver"
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -20,6 +19,6 @@ build() {
 }
 
 package() {
-    cd "$builddor"
+    cd "$srcdir/$pkgname-$pkgver"
     DESTDIR="$pkgdir" cmake --install build
 }
