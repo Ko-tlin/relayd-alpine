@@ -32,9 +32,9 @@ jobs:
         run: |
           mkdir -p /home/builder/.abuild
 
-          echo "$APKBUILD_PRIVKEY" > /home/builder/.abuild/your-key-name.rsa
-          chmod 600 /home/builder/.abuild/your-key-name.rsa
-          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/your-key-name.rsa\"" > /home/builder/.abuild.conf
+          echo "$APKBUILD_PRIVKEY" > /home/builder/.abuild/product.rsa
+          chmod 600 /home/builder/.abuild/product.rsa
+          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/product.rsa\"" > /home/builder/.abuild/abuild.conf
           chown -R builder:abuild /home/builder/
 
       - name: Update APKBUILD and Build
