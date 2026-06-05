@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir -p /home/builder/.abuild
 
-          KEY_NAME="kotlin-apk.rsa"
+          KEY_NAME="kotlin102-6a213e7e.rsa"
 
           echo "$APKBUILD_PUBKEY" > /home/builder/.abuild/$KEY_NAME.pub
           chmod 600 /home/builder/.abuild/$KEY_NAME.pub
