@@ -30,19 +30,8 @@ jobs:
           APKBUILD_PUBKEY: ${{ secrets.APKBUILD_PUBKEY }}
           APKBUILD_PRIKEY: ${{ secrets.APKBUILD_PRIKEY }}
         run: |
-          mkdir -p /home/builder/.abuild
-
-          KEY_NAME="kotlin102-6a213e7e.rsa"
-
-          echo "$APKBUILD_PUBKEY" > /home/builder/.abuild/$KEY_NAME.pub
-          chmod 600 /home/builder/.abuild/$KEY_NAME.pub
-          echo "$APKBUILD_PRIKEY" > /home/builder/.abuild/$KEY_NAME
-          chmod 600 /home/builder/.abuild/$KEY_NAME
-
-          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/$KEY_NAME\"" > /home/builder/.abuild/abuild.conf
+          abuild-keygen -a -i -n
           chown -R builder:abuild /home/builder/
-
-          cp /home/builder/.abuild/$KEY_NAME.pub /etc/apk/keys/
 
       - name: Update APKBUILD and Build
         run: |
