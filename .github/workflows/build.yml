@@ -32,13 +32,15 @@ jobs:
         run: |
           mkdir -p /home/builder/.abuild
 
-          echo "$APKBUILD_PUBKEY" > /home/builder/.abuild/product.rsa.pub
-          chmod 600 /home/builder/.abuild/product.rsa.pub
-          echo "$APKBUILD_PRIKEY" > /home/builder/.abuild/product.rsa
-          chmod 600 /home/builder/.abuild/product.rsa
+          echo "$APKBUILD_PUBKEY" > /home/builder/.abuild/kotlin-apk.rsa.pub
+          chmod 600 /home/builder/.abuild/kotlin-apk.rsa.pub
+          echo "$APKBUILD_PRIKEY" > /home/builder/.abuild/kotlin-apk.rsa
+          chmod 600 /home/builder/.abuild/kotlin-apk.rsa
 
-          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/product.rsa\"" > /home/builder/.abuild/abuild.conf
+          echo "PACKAGER_PRIVKEY=\"/home/builder/.abuild/kotlin-apk.rsa\"" > /home/builder/.abuild/abuild.conf
           chown -R builder:abuild /home/builder/
+
+          cp /home/builder/.abuild/kotlin-apk.rsa.pub /etc/apk/keys/
 
       - name: Update APKBUILD and Build
         run: |
